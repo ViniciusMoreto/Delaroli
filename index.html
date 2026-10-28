@@ -1,0 +1,2691 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Para você 💙</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@300;400;500;600;700&family=Caveat:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        cursor: none;
+      }
+      :root {
+        --azul-noite: #050d1f;
+        --azul-escuro: #0a1a3a;
+        --azul-medio: #1e3a8a;
+        --azul: #3b82f6;
+        --azul-claro: #60a5fa;
+        --azul-bebe: #bfdbfe;
+        --branco: #f8fafc;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        background: var(--azul-noite);
+        color: var(--branco);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* ===== FUNDO ===== */
+      .bg-gradient {
+        position: fixed;
+        inset: 0;
+        z-index: -3;
+        background:
+          radial-gradient(
+            circle at 20% 30%,
+            rgba(59, 130, 246, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(96, 165, 250, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(30, 58, 138, 0.3) 0%,
+            transparent 70%
+          ),
+          linear-gradient(180deg, #050d1f 0%, #0a1a3a 50%, #050d1f 100%);
+      }
+      .stars {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: -2;
+      }
+      .star {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        animation: twinkle 3s infinite ease-in-out;
+      }
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: scale(0.8);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.3);
+        }
+      }
+
+      /* Pétalas */
+      .petalas {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+      }
+      .petala {
+        position: absolute;
+        top: -50px;
+        font-size: 1.2rem;
+        animation: cair linear infinite;
+        opacity: 0.6;
+      }
+      @keyframes cair {
+        0% {
+          transform: translateY(-50px) rotate(0deg) translateX(0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(110vh) rotate(720deg) translateX(100px);
+          opacity: 0;
+        }
+      }
+
+      /* ===== CURSOR ===== */
+      .cursor {
+        position: fixed;
+        width: 30px;
+        height: 30px;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.15s ease-out;
+        mix-blend-mode: screen;
+      }
+      .cursor::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle,
+          rgba(96, 165, 250, 0.4) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+      }
+      .cursor::after {
+        content: "💙";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 14px;
+      }
+
+      /* ===== LOADING ===== */
+      .loading {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+          circle at 50% 50%,
+          #0a1a3a 0%,
+          #050d1f 100%
+        );
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        transition:
+          opacity 1s ease,
+          visibility 1s ease;
+        overflow: hidden;
+      }
+      .loading.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      /* Estrelas do loading */
+      .loading-stars {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .loading-star {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        animation: loadingTwinkle 2s infinite ease-in-out;
+      }
+      @keyframes loadingTwinkle {
+        0%,
+        100% {
+          opacity: 0.2;
+          transform: scale(0.8);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.3);
+        }
+      }
+
+      /* Container do Stitch */
+      .loading-stitch-wrap {
+        position: relative;
+        width: 400px;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      /* Buraco rasgado (sombra atrás do Stitch) */
+      .loading-hole {
+        position: absolute;
+        width: 280px;
+        height: 280px;
+        background: radial-gradient(
+          circle,
+          #000 0%,
+          #050d1f 60%,
+          transparent 80%
+        );
+        border-radius: 50%;
+        filter: blur(20px);
+        opacity: 0.8;
+        z-index: 1;
+        animation: holePulse 2s infinite ease-in-out;
+      }
+      @keyframes holePulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.6;
+        }
+      }
+
+      /* Stitch animado */
+      .loading-stitch {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6));
+      }
+      .loading-stitch img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      /* Info do loading */
+      .loading-info {
+        text-align: center;
+        z-index: 3;
+        position: relative;
+      }
+      .loading-text {
+        font-family: "Dancing Script", cursive;
+        font-size: 2.2rem;
+        color: var(--azul-bebe);
+        margin-bottom: 20px;
+        text-shadow: 0 0 20px rgba(96, 165, 250, 0.5);
+        letter-spacing: 0.02em;
+      }
+      .loading-bar {
+        width: 280px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 0 auto 12px;
+        border: 1px solid rgba(191, 219, 254, 0.2);
+      }
+      .loading-bar-fill {
+        width: 0;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--azul-claro),
+          var(--azul-bebe),
+          var(--azul-claro)
+        );
+        background-size: 200% 100%;
+        border-radius: 10px;
+        box-shadow: 0 0 15px var(--azul-claro);
+        animation: shimmer 2s infinite linear;
+        transition: width 0.3s ease;
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: -200% 0;
+        }
+        100% {
+          background-position: 200% 0;
+        }
+      }
+      .loading-percent {
+        font-family: "Poppins", sans-serif;
+        font-size: 0.9rem;
+        color: var(--azul-bebe);
+        opacity: 0.7;
+        letter-spacing: 0.1em;
+      }
+
+      /* Responsivo */
+      @media (max-width: 500px) {
+        .loading-stitch-wrap {
+          width: 300px;
+          height: 300px;
+        }
+        .loading-hole {
+          width: 200px;
+          height: 200px;
+        }
+        .loading-text {
+          font-size: 1.6rem;
+        }
+        .loading-bar {
+          width: 220px;
+        }
+      }
+
+      /* ===== NAVEGAÇÃO ===== */
+      .nav-dots {
+        position: fixed;
+        right: 25px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .nav-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+        transition: all 0.4s;
+        position: relative;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .nav-dot.active {
+        background: var(--azul-bebe);
+        transform: scale(1.6);
+        box-shadow: 0 0 20px var(--azul-claro);
+      }
+      .nav-dot::before {
+        content: attr(data-label);
+        position: absolute;
+        right: 25px;
+        top: 50%;
+        transform: translateY(-50%) translateX(10px);
+        background: rgba(10, 26, 58, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s;
+        border: 1px solid rgba(191, 219, 254, 0.2);
+      }
+      .nav-dot:hover::before {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+      }
+
+      /* Música toggle */
+      .music-toggle {
+        position: fixed;
+        top: 25px;
+        left: 25px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(191, 219, 254, 0.2);
+        color: white;
+        cursor: pointer;
+        z-index: 100;
+        font-size: 1.2rem;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .music-toggle:hover {
+        transform: scale(1.1);
+        background: rgba(96, 165, 250, 0.2);
+        border-color: var(--azul-bebe);
+      }
+      .music-toggle.playing {
+        animation: pulseMusic 2s infinite;
+      }
+      @keyframes pulseMusic {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 0 15px rgba(96, 165, 250, 0);
+        }
+      }
+
+      /* ===== STITCH ESPIANDO PELA LATERAL ===== */
+      .stitch-espiao {
+        position: fixed;
+        left: -180px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 320px;
+        height: auto;
+        z-index: 50;
+        pointer-events: none;
+        filter: drop-shadow(10px 10px 30px rgba(0, 0, 0, 0.6));
+        animation: espiar 4s ease-in-out infinite;
+        transition: left 0.5s ease-out;
+      }
+      .stitch-espiao img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      @keyframes espiar {
+        0%,
+        100% {
+          left: -180px;
+        }
+        50% {
+          left: -140px;
+        }
+      }
+      .stitch-espiao:hover {
+        left: -80px !important;
+      }
+      .stitch-bolinha {
+        position: fixed;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 12px;
+        height: 12px;
+        background: var(--azul-bebe);
+        border-radius: 50%;
+        z-index: 51;
+        box-shadow: 0 0 15px var(--azul-claro);
+        animation: piscar 2s infinite;
+        pointer-events: none;
+      }
+      @keyframes piscar {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* ===== SEÇÕES ===== */
+      section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 100px 20px;
+        position: relative;
+        z-index: 2;
+      }
+      .section-inner {
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      h1,
+      h2 {
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      .script {
+        font-family: "Dancing Script", cursive;
+        font-weight: 700;
+      }
+      .handwritten {
+        font-family: "Caveat", cursive;
+      }
+
+      /* ===== HERO ===== */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        position: relative;
+        perspective: 1000px;
+      }
+      .hero-badge {
+        display: inline-block;
+        padding: 8px 20px;
+        background: rgba(96, 165, 250, 0.1);
+        border: 1px solid rgba(191, 219, 254, 0.3);
+        border-radius: 50px;
+        font-size: 0.85rem;
+        color: var(--azul-bebe);
+        margin-bottom: 30px;
+        backdrop-filter: blur(10px);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .hero h1 {
+        font-size: clamp(3rem, 9vw, 7rem);
+        color: var(--branco);
+        line-height: 1;
+        margin-bottom: 20px;
+        background: linear-gradient(
+          135deg,
+          #fff 0%,
+          var(--azul-bebe) 50%,
+          var(--azul-claro) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 40px rgba(96, 165, 250, 0.3));
+      }
+      .hero h1 .script {
+        display: block;
+        font-size: clamp(2rem, 6vw, 4rem);
+        background: linear-gradient(
+          135deg,
+          var(--azul-bebe),
+          var(--azul-claro)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-top: 10px;
+      }
+      .hero-subtitle {
+        font-size: clamp(1rem, 2vw, 1.3rem);
+        max-width: 600px;
+        line-height: 1.8;
+        opacity: 0.85;
+        margin: 20px auto 40px;
+        font-weight: 300;
+      }
+      .hero-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 35px;
+        background: linear-gradient(135deg, var(--azul-claro), var(--azul));
+        color: white;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 500;
+        box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);
+        transition: all 0.3s;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .hero-cta:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 50px rgba(59, 130, 246, 0.6);
+      }
+      .scroll-indicator {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        opacity: 0.6;
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+      .scroll-line {
+        width: 1px;
+        height: 40px;
+        background: linear-gradient(180deg, var(--azul-bebe), transparent);
+        animation: scrollLine 2s infinite;
+      }
+      @keyframes scrollLine {
+        0% {
+          transform: scaleY(0);
+          transform-origin: top;
+        }
+        50% {
+          transform: scaleY(1);
+          transform-origin: top;
+        }
+        51% {
+          transform-origin: bottom;
+        }
+        100% {
+          transform: scaleY(0);
+          transform-origin: bottom;
+        }
+      }
+
+      /* ===== SOBRE ===== */
+      .sobre-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+      }
+      .sobre-foto-wrap {
+        position: relative;
+        perspective: 1000px;
+      }
+      .sobre-foto {
+        position: relative;
+        aspect-ratio: 3/4;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow:
+          0 30px 80px rgba(0, 0, 0, 0.5),
+          0 0 0 1px rgba(191, 219, 254, 0.1);
+        transition: transform 0.4s ease-out;
+        transform-style: preserve-3d;
+      }
+      .sobre-foto img,
+      .sobre-foto .placeholder {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .sobre-foto .placeholder {
+        background: linear-gradient(135deg, var(--azul-medio), var(--azul));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 8rem;
+        color: rgba(255, 255, 255, 0.3);
+      }
+      .sobre-foto::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          transparent 50%,
+          rgba(5, 13, 31, 0.6) 100%
+        );
+        pointer-events: none;
+      }
+      .foto-decor {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 20px;
+        left: 20px;
+        border: 2px solid var(--azul-claro);
+        border-radius: 20px;
+        z-index: -1;
+        opacity: 0.5;
+      }
+      .foto-tag {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        background: rgba(10, 26, 58, 0.8);
+        backdrop-filter: blur(10px);
+        padding: 10px 18px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        border: 1px solid rgba(191, 219, 254, 0.2);
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .foto-tag .dot {
+        width: 8px;
+        height: 8px;
+        background: #22c55e;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .sobre-texto .label {
+        display: inline-block;
+        color: var(--azul-claro);
+        font-size: 0.85rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        font-weight: 500;
+      }
+      .sobre-texto h2 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        line-height: 1.1;
+        margin-bottom: 25px;
+        color: var(--branco);
+      }
+      .sobre-texto h2 em {
+        font-style: italic;
+        color: var(--azul-bebe);
+      }
+      .sobre-texto p {
+        font-size: 1.05rem;
+        line-height: 1.9;
+        opacity: 0.85;
+        margin-bottom: 18px;
+        font-weight: 300;
+      }
+      .sobre-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 35px;
+        padding-top: 35px;
+        border-top: 1px solid rgba(191, 219, 254, 0.1);
+      }
+      .stat-num {
+        font-family: "Playfair Display", serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--azul-bebe);
+        line-height: 1;
+      }
+      .stat-label {
+        font-size: 0.8rem;
+        opacity: 0.7;
+        margin-top: 5px;
+        letter-spacing: 0.05em;
+      }
+
+      /* ===== QUALIDADES ===== */
+      .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+      .section-header .label {
+        display: inline-block;
+        color: var(--azul-claro);
+        font-size: 0.85rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        font-weight: 500;
+      }
+      .section-header h2 {
+        font-size: clamp(2.2rem, 5vw, 3.5rem);
+        line-height: 1.1;
+        margin-bottom: 15px;
+      }
+      .section-header h2 em {
+        font-style: italic;
+        color: var(--azul-bebe);
+      }
+      .section-header p {
+        max-width: 600px;
+        margin: 0 auto;
+        opacity: 0.8;
+        font-weight: 300;
+        line-height: 1.7;
+      }
+
+      .qualidades-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        perspective: 1000px;
+      }
+      .qualidade-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(191, 219, 254, 0.1);
+        border-radius: 20px;
+        padding: 35px 25px;
+        text-align: left;
+        transition:
+          transform 0.3s ease-out,
+          box-shadow 0.3s,
+          border-color 0.3s;
+        transform-style: preserve-3d;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+      .qualidade-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--azul-claro), var(--azul-bebe));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s;
+      }
+      .qualidade-card:hover::before {
+        transform: scaleX(1);
+      }
+      .qualidade-card:hover {
+        border-color: rgba(191, 219, 254, 0.3);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      }
+      .qualidade-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px;
+        background: linear-gradient(
+          135deg,
+          rgba(96, 165, 250, 0.2),
+          rgba(59, 130, 246, 0.1)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        border: 1px solid rgba(191, 219, 254, 0.2);
+        transform: translateZ(30px);
+      }
+      .qualidade-card h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+        color: var(--branco);
+        transform: translateZ(20px);
+      }
+      .qualidade-card p {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        opacity: 0.75;
+        font-weight: 300;
+        transform: translateZ(10px);
+      }
+
+      /* ===== TIMELINE ===== */
+      .timeline {
+        position: relative;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 0;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(
+          180deg,
+          transparent 0%,
+          var(--azul-claro) 10%,
+          var(--azul-bebe) 50%,
+          var(--azul-claro) 90%,
+          transparent 100%
+        );
+        transform: translateX(-50%);
+      }
+      .tl-item {
+        position: relative;
+        width: 50%;
+        padding: 25px 50px;
+        margin-bottom: 20px;
+      }
+      .tl-item:nth-child(odd) {
+        left: 0;
+        text-align: right;
+      }
+      .tl-item:nth-child(even) {
+        left: 50%;
+        text-align: left;
+      }
+      .tl-item::before {
+        content: "";
+        position: absolute;
+        top: 35px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--azul-noite);
+        border: 3px solid var(--azul-bebe);
+        box-shadow: 0 0 20px var(--azul-claro);
+        z-index: 2;
+      }
+      .tl-item:nth-child(odd)::before {
+        right: -8px;
+      }
+      .tl-item:nth-child(even)::before {
+        left: -8px;
+      }
+      .tl-content {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        padding: 25px;
+        border-radius: 18px;
+        border: 1px solid rgba(191, 219, 254, 0.15);
+        transition: all 0.4s;
+      }
+      .tl-content:hover {
+        transform: translateY(-5px);
+        border-color: rgba(191, 219, 254, 0.3);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      }
+      .tl-date {
+        color: var(--azul-bebe);
+        font-family: "Caveat", cursive;
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+      .tl-content p {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        opacity: 0.85;
+        font-weight: 300;
+      }
+
+      /* ===== GALERIA ===== */
+      .galeria {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 30px;
+        perspective: 1500px;
+      }
+      .polaroid {
+        background: #fafafa;
+        padding: 15px 15px 50px;
+        border-radius: 5px;
+        box-shadow:
+          0 20px 50px rgba(0, 0, 0, 0.4),
+          0 0 0 1px rgba(0, 0, 0, 0.1);
+        transition:
+          transform 0.5s ease-out,
+          box-shadow 0.5s;
+        transform-style: preserve-3d;
+        cursor: pointer;
+        position: relative;
+      }
+      .polaroid:nth-child(1) {
+        transform: rotate(-4deg);
+      }
+      .polaroid:nth-child(2) {
+        transform: rotate(3deg) translateY(20px);
+      }
+      .polaroid:nth-child(3) {
+        transform: rotate(-2deg);
+      }
+      .polaroid:nth-child(4) {
+        transform: rotate(5deg) translateY(15px);
+      }
+      .polaroid:nth-child(5) {
+        transform: rotate(-3deg) translateY(10px);
+      }
+      .polaroid:nth-child(6) {
+        transform: rotate(2deg);
+      }
+      .polaroid:hover {
+        transform: rotate(0deg) scale(1.08) translateY(-15px) !important;
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+        z-index: 10;
+      }
+      .polaroid-img {
+        width: 100%;
+        aspect-ratio: 1;
+        background: linear-gradient(135deg, var(--azul-medio), var(--azul));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        color: rgba(255, 255, 255, 0.3);
+        overflow: hidden;
+      }
+      .polaroid-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .polaroid-caption {
+        position: absolute;
+        bottom: 15px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: "Caveat", cursive;
+        font-size: 1.3rem;
+        color: #334155;
+        font-weight: 700;
+      }
+
+      /* ===== STITCH APROVA ===== */
+      .stitch-aprova {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .stitch-aprova-img {
+        position: relative;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow:
+          0 30px 80px rgba(0, 0, 0, 0.6),
+          0 0 0 1px rgba(191, 219, 254, 0.2);
+        aspect-ratio: 9/16;
+        max-height: 600px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .stitch-aprova-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .stitch-aprova-img::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          transparent 60%,
+          rgba(5, 13, 31, 0.4) 100%
+        );
+        pointer-events: none;
+      }
+      .stitch-aprova-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(10, 26, 58, 0.85);
+        backdrop-filter: blur(15px);
+        padding: 10px 18px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        border: 1px solid rgba(191, 219, 254, 0.3);
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .stitch-aprova-texto .label {
+        display: inline-block;
+        color: var(--azul-claro);
+        font-size: 0.85rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        font-weight: 500;
+      }
+      .stitch-aprova-texto h2 {
+        font-size: clamp(2.2rem, 5vw, 3.5rem);
+        line-height: 1.1;
+        margin-bottom: 25px;
+      }
+      .stitch-aprova-texto h2 em {
+        font-style: italic;
+        color: var(--azul-bebe);
+      }
+      .stitch-aprova-texto p {
+        font-size: 1.05rem;
+        line-height: 1.9;
+        opacity: 0.85;
+        margin-bottom: 18px;
+        font-weight: 300;
+      }
+      .stitch-quote {
+        background: rgba(96, 165, 250, 0.08);
+        border-left: 3px solid var(--azul-bebe);
+        padding: 20px 25px;
+        border-radius: 0 15px 15px 0;
+        margin-top: 25px;
+        font-family: "Caveat", cursive;
+        font-size: 1.5rem;
+        color: var(--azul-bebe);
+        line-height: 1.5;
+      }
+      .stitch-quote span {
+        display: block;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.85rem;
+        opacity: 0.7;
+        margin-top: 8px;
+        font-style: italic;
+      }
+
+      /* ===== PLAYLIST ===== */
+      .playlist {
+        max-width: 700px;
+        margin: 0 auto;
+      }
+      .music-item {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        padding: 18px 22px;
+        border-radius: 15px;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        border: 1px solid rgba(191, 219, 254, 0.1);
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .music-item:hover {
+        background: rgba(96, 165, 250, 0.08);
+        border-color: rgba(191, 219, 254, 0.3);
+        transform: translateX(8px);
+      }
+      .music-item.playing {
+        background: rgba(96, 165, 250, 0.15);
+        border-color: var(--azul-bebe);
+      }
+      .music-num {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        color: var(--azul-claro);
+        min-width: 35px;
+        font-style: italic;
+      }
+      .music-cover {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--azul-medio), var(--azul));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+      .music-info {
+        flex: 1;
+        text-align: left;
+      }
+      .music-title {
+        font-weight: 500;
+        color: var(--branco);
+        margin-bottom: 3px;
+      }
+      .music-artist {
+        font-size: 0.85rem;
+        opacity: 0.7;
+        font-weight: 300;
+      }
+      .music-play {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(96, 165, 250, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--azul-bebe);
+        transition: all 0.3s;
+      }
+      .music-item:hover .music-play {
+        background: var(--azul-claro);
+        color: white;
+      }
+
+      /* ===== MÁQUINA ===== */
+      .maquina-wrap {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .msg-box {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        padding: 50px 40px;
+        border-radius: 25px;
+        border: 1px solid rgba(191, 219, 254, 0.15);
+        min-height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Caveat", cursive;
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        color: var(--azul-bebe);
+        line-height: 1.5;
+        margin-bottom: 30px;
+        transition: all 0.5s;
+        position: relative;
+        overflow: hidden;
+      }
+      .msg-box::before {
+        content: '"';
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        font-family: "Playfair Display", serif;
+        font-size: 6rem;
+        color: var(--azul-claro);
+        opacity: 0.2;
+        line-height: 1;
+      }
+      .btn-maquina {
+        background: linear-gradient(135deg, var(--azul-claro), var(--azul));
+        color: white;
+        padding: 16px 40px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: 500;
+        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        transition: all 0.3s;
+        letter-spacing: 0.05em;
+      }
+      .btn-maquina:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(59, 130, 246, 0.6);
+      }
+
+      /* ===== PROMESSAS ===== */
+      .promessas-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 25px;
+        perspective: 1500px;
+      }
+      .promessa-card {
+        height: 280px;
+        perspective: 1500px;
+      }
+      .promessa-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+      }
+      .promessa-card.flipped .promessa-inner {
+        transform: rotateY(180deg);
+      }
+      .promessa-front,
+      .promessa-back {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        border-radius: 20px;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border: 1px solid rgba(191, 219, 254, 0.15);
+      }
+      .promessa-front {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+      }
+      .promessa-back {
+        background: linear-gradient(
+          135deg,
+          rgba(96, 165, 250, 0.15),
+          rgba(59, 130, 246, 0.05)
+        );
+        backdrop-filter: blur(20px);
+        transform: rotateY(180deg);
+        border-color: var(--azul-bebe);
+      }
+      .promessa-num {
+        font-family: "Playfair Display", serif;
+        font-size: 3rem;
+        font-style: italic;
+        color: var(--azul-claro);
+        margin-bottom: 15px;
+        line-height: 1;
+      }
+      .promessa-front h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.3rem;
+        color: var(--branco);
+        margin-bottom: 10px;
+      }
+      .promessa-front small {
+        font-size: 0.8rem;
+        opacity: 0.6;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .promessa-back p {
+        font-family: "Caveat", cursive;
+        font-size: 1.4rem;
+        color: var(--azul-bebe);
+        line-height: 1.5;
+      }
+
+      /* ===== CONTADOR ===== */
+      .contador-wrap {
+        text-align: center;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .contador-numeros {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 40px 0;
+      }
+      .contador-item {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        padding: 30px 15px;
+        border-radius: 20px;
+        border: 1px solid rgba(191, 219, 254, 0.15);
+        transition: all 0.3s;
+      }
+      .contador-item:hover {
+        border-color: rgba(191, 219, 254, 0.3);
+        transform: translateY(-5px);
+      }
+      .contador-num {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 700;
+        font-style: italic;
+        color: var(--azul-bebe);
+        line-height: 1;
+        background: linear-gradient(135deg, #fff, var(--azul-bebe));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .contador-label {
+        font-size: 0.85rem;
+        opacity: 0.7;
+        margin-top: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .contador-frase {
+        font-family: "Caveat", cursive;
+        font-size: 1.8rem;
+        color: var(--azul-bebe);
+        margin-top: 20px;
+      }
+
+      /* ===== BUCKET LIST ===== */
+      .bucket-list {
+        max-width: 800px;
+        margin: 0 auto;
+        display: grid;
+        gap: 15px;
+      }
+      .bucket-item {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        padding: 20px 25px;
+        border-radius: 15px;
+        border: 1px solid rgba(191, 219, 254, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        transition: all 0.3s;
+        cursor: pointer;
+      }
+      .bucket-item:hover {
+        background: rgba(96, 165, 250, 0.08);
+        border-color: rgba(191, 219, 254, 0.3);
+        transform: translateX(10px);
+      }
+      .bucket-check {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 2px solid var(--azul-claro);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.3s;
+        font-size: 0.9rem;
+      }
+      .bucket-item.done .bucket-check {
+        background: var(--azul-claro);
+        color: white;
+      }
+      .bucket-item.done .bucket-text {
+        text-decoration: line-through;
+        opacity: 0.5;
+      }
+      .bucket-emoji {
+        font-size: 1.8rem;
+        flex-shrink: 0;
+      }
+      .bucket-text {
+        flex: 1;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      /* ===== CARTA ===== */
+      .carta-wrap {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .envelope {
+        width: 380px;
+        height: 240px;
+        position: relative;
+        cursor: pointer;
+        margin: 40px auto 0;
+        transition: transform 0.3s;
+      }
+      .envelope:hover {
+        transform: scale(1.03);
+      }
+      .envelope-body {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #1e40af, #1e3a8a);
+        border-radius: 10px;
+        position: relative;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(191, 219, 254, 0.3);
+      }
+      .envelope-flap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 55%;
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+        transform-origin: top;
+        transition: transform 0.8s;
+        z-index: 3;
+        border-top: 1px solid rgba(191, 219, 254, 0.3);
+      }
+      .envelope.open .envelope-flap {
+        transform: rotateX(180deg);
+      }
+      .envelope-heart {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3.5rem;
+        z-index: 2;
+        transition: opacity 0.3s;
+        filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.8));
+      }
+      .envelope.open .envelope-heart {
+        opacity: 0;
+      }
+      .carta {
+        position: absolute;
+        top: 8%;
+        left: 8%;
+        width: 84%;
+        height: 88%;
+        background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+        color: #1e293b;
+        border-radius: 8px;
+        padding: 28px 25px;
+        font-family: "Caveat", cursive;
+        font-size: 1.05rem;
+        line-height: 1.5;
+        transform: translateY(0);
+        transition: transform 0.8s 0.3s;
+        z-index: 1;
+        overflow-y: auto;
+        text-align: left;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+      .envelope.open .carta {
+        transform: translateY(-220px);
+      }
+      .carta h4 {
+        font-family: "Dancing Script", cursive;
+        color: var(--azul-medio);
+        margin-bottom: 12px;
+        font-size: 1.6rem;
+        text-align: center;
+      }
+      .carta p {
+        margin-bottom: 8px;
+      }
+      .carta-assinatura {
+        text-align: right;
+        margin-top: 12px;
+        font-weight: 700;
+        color: var(--azul-medio);
+      }
+
+      /* ===== FINAL ===== */
+      .final {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .final-quote {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+        line-height: 1.5;
+        color: var(--branco);
+        margin: 40px 0;
+        position: relative;
+        padding: 40px 0;
+      }
+      .final-quote::before,
+      .final-quote::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--azul-bebe),
+          transparent
+        );
+      }
+      .final-quote::before {
+        top: 0;
+      }
+      .final-quote::after {
+        bottom: 0;
+      }
+      .final-quote em {
+        color: var(--azul-bebe);
+        font-style: italic;
+      }
+      .final-versiculo {
+        font-family: "Caveat", cursive;
+        font-size: 1.3rem;
+        color: var(--azul-claro);
+        margin-top: 20px;
+      }
+      .final-signature {
+        font-family: "Dancing Script", cursive;
+        font-size: 2.5rem;
+        color: var(--azul-bebe);
+        margin-top: 50px;
+      }
+
+      /* ===== MINI STITCH FLUTUANTE (ROSTO REAL) ===== */
+      .stitch-float {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        width: 100px;
+        height: 100px;
+        z-index: 99;
+        pointer-events: none;
+        filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
+        animation: floatStitch 4s ease-in-out infinite;
+      }
+      @keyframes floatStitch {
+        0%,
+        100% {
+          transform: translateY(0) rotate(-3deg);
+        }
+        50% {
+          transform: translateY(-12px) rotate(3deg);
+        }
+      }
+
+      .stitch-face {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid rgba(191, 219, 254, 0.4);
+        box-shadow:
+          0 0 30px rgba(96, 165, 250, 0.4),
+          inset 0 0 20px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(135deg, #1e3a8a, #2563eb);
+        position: relative;
+      }
+
+      .stitch-face img {
+        width: 160%;
+        height: 160%;
+        object-fit: cover;
+        object-position: center 20%;
+        position: absolute;
+        top: -10%;
+        left: -30%;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+      }
+
+      /* Brilho no canto */
+      .stitch-face::after {
+        content: "";
+        position: absolute;
+        top: 10%;
+        left: 15%;
+        width: 30%;
+        height: 20%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      /* ===== LIGHTBOX ===== */
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(5, 13, 31, 0.95);
+        backdrop-filter: blur(20px);
+        z-index: 9000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+      }
+      .lightbox.active {
+        display: flex;
+      }
+      .lightbox-content {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 10px;
+        background: #fafafa;
+        padding: 20px 20px 60px;
+        position: relative;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+      }
+      .lightbox-img {
+        width: 60vmin;
+        height: 60vmin;
+        max-width: 500px;
+        max-height: 500px;
+        background: linear-gradient(135deg, var(--azul-medio), var(--azul));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 8rem;
+        color: rgba(255, 255, 255, 0.3);
+        border-radius: 5px;
+      }
+      .lightbox-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+      .lightbox-caption {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: "Caveat", cursive;
+        font-size: 1.8rem;
+        color: #334155;
+      }
+      .lightbox-close {
+        position: absolute;
+        top: 25px;
+        right: 30px;
+        font-size: 2.5rem;
+        color: white;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+      }
+      .lightbox-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(90deg);
+      }
+
+      /* ===== RESPONSIVO ===== */
+      @media (max-width: 900px) {
+        .sobre-grid,
+        .stitch-aprova {
+          grid-template-columns: 1fr;
+          gap: 50px;
+        }
+        .stitch-aprova-img {
+          max-height: 500px;
+          order: -1;
+        }
+        .timeline::before {
+          left: 20px;
+        }
+        .tl-item {
+          width: 100%;
+          left: 0 !important;
+          text-align: left !important;
+          padding-left: 55px;
+          padding-right: 15px;
+        }
+        .tl-item::before {
+          left: 12px !important;
+          right: auto !important;
+        }
+        .contador-numeros {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .nav-dots {
+          right: 12px;
+        }
+        .nav-dot::before {
+          display: none;
+        }
+        body {
+          cursor: auto;
+        }
+        .cursor {
+          display: none;
+        }
+        .envelope {
+          width: 320px;
+          height: 200px;
+        }
+        .carta {
+          font-size: 0.95rem;
+          padding: 20px;
+        }
+        .envelope.open .carta {
+          transform: translateY(-180px);
+        }
+        .stitch-espiao {
+          width: 220px;
+          left: -130px;
+        }
+        .stitch-espiao:hover {
+          left: -60px !important;
+        }
+      }
+      @media (max-width: 500px) {
+        section {
+          padding: 80px 15px;
+        }
+        .sobre-stats {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+        .polaroid {
+          padding: 10px 10px 40px;
+        }
+        .stitch-espiao {
+          width: 180px;
+          left: -110px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading -->
+    <div class="loading" id="loading">
+      <div class="loading-stars" id="loadingStars"></div>
+
+      <div class="loading-stitch-wrap">
+        <div class="loading-stitch" id="loadingStitch">
+          <img
+            src="./assets/img/stitch_loader_teste.png"
+            alt="Stitch rasgando"
+            onerror="this.style.display = 'none'"
+          />
+        </div>
+        <div class="loading-hole"></div>
+      </div>
+
+      <div class="loading-info">
+        <div class="loading-text" id="loadingText">Stitch tá chegando...</div>
+        <div class="loading-bar">
+          <div class="loading-bar-fill" id="loadingBarFill"></div>
+        </div>
+        <div class="loading-percent" id="loadingPercent">0%</div>
+      </div>
+    </div>
+
+    <!-- Cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Fundo -->
+    <div class="bg-gradient"></div>
+    <div class="stars" id="stars"></div>
+    <div class="petalas" id="petalas"></div>
+
+    <!-- Stitch Espiando pela lateral (TIRAR FUNDO) -->
+    <div class="stitch-espiao" id="stitchEspiao">
+      <img
+        src="/assets/img/STITCH_PRINCIPAL.png"
+        alt="Stitch espiando"
+        onerror="this.style.display = 'none'"
+      />
+    </div>
+    <div class="stitch-bolinha"></div>
+
+    <!-- Navegação -->
+    <nav class="nav-dots" id="navDots">
+      <div class="nav-dot active" data-section="0" data-label="Início"></div>
+      <div class="nav-dot" data-section="1" data-label="Você"></div>
+      <div class="nav-dot" data-section="2" data-label="Qualidades"></div>
+      <div class="nav-dot" data-section="3" data-label="Nossa história"></div>
+      <div class="nav-dot" data-section="4" data-label="Stitch aprova"></div>
+      <div class="nav-dot" data-section="5" data-label="Carinho"></div>
+      <div class="nav-dot" data-section="6" data-label="Promessas"></div>
+      <div class="nav-dot" data-section="7" data-label="Sonhos"></div>
+      <div class="nav-dot" data-section="8" data-label="Final"></div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-badge">✦ Uma homenagem ✦</div>
+      <h1>
+        Para você
+        <span class="script">que tornou tudo mais bonito</span>
+      </h1>
+      <p class="hero-subtitle">
+        Existem pessoas que chegam sem avisar e ficam pra sempre. Você é uma
+        delas e esse site é só um pedacinho do que eu sinto.
+      </p>
+      <a href="#sobre" class="hero-cta"> Começar a jornada <span>↓</span> </a>
+    </section>
+
+    <!-- SOBRE -->
+    <section id="sobre">
+      <div class="section-inner">
+        <div class="sobre-grid">
+          <div class="sobre-foto-wrap tilt-3d">
+            <div class="sobre-foto">
+              <div class="placeholder">
+                <img
+                  src="./assets/img/stitch_Duda.jpeg"
+                  alt="Stitch da Eduarda"
+                />
+              </div>
+            </div>
+            <div class="foto-decor"></div>
+          </div>
+          <div class="sobre-texto">
+            <span class="label">✦ Sobre você</span>
+            <h2>Uma menina de <em>fé</em>, sonhos e um coração gigante</h2>
+            <p>
+              Você é daquelas pessoas raras que acreditam no melhor das outras.
+              Vai à igreja, cuida da sua relação com Deus, estuda com dedicação
+              e ainda encontra tempo pra sonhar alto.
+            </p>
+            <p>
+              Quer ser psicóloga não só pra ouvir, mas pra cuidar de verdade. E
+              enquanto você cuida do mundo, eu queria muito poder cuidar de você
+              um pouquinho também.
+            </p>
+            <div class="sobre-stats">
+              <div>
+                <div class="stat-num">∞</div>
+                <div class="stat-label">Motivos pra admirar você</div>
+              </div>
+              <div>
+                <div class="stat-num">💙</div>
+                <div class="stat-label">Sua cor, minha cor favorita</div>
+              </div>
+              <div>
+                <div class="stat-num">👽</div>
+                <div class="stat-label">Stitch approved</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUALIDADES -->
+    <section>
+      <div class="section-inner">
+        <div class="section-header">
+          <span class="label">✦ O que me encanta</span>
+          <h2>Pequenas coisas que fazem <em>você ser você</em></h2>
+          <p>São os detalhes que me fazem gostar mais a cada dia.</p>
+        </div>
+        <div class="qualidades-grid">
+          <div class="qualidade-card tilt-3d">
+            <div class="qualidade-icon">🙏</div>
+            <h3>Sua fé</h3>
+            <p>
+              Ver você firme na fé me inspira a querer caminhar mais perto de
+              Deus também. É lindo te ver orando e confiando.
+            </p>
+          </div>
+          <div class="qualidade-card tilt-3d">
+            <div class="qualidade-icon">🧠</div>
+            <h3>Seu sonho</h3>
+            <p>
+              Querer ser psicóloga mostra o tamanho do seu coração. Você vai
+              ajudar tantas pessoas a se encontrarem.
+            </p>
+          </div>
+          <div class="qualidade-card tilt-3d">
+            <div class="qualidade-icon">💙</div>
+            <h3>Sua cor</h3>
+            <p>
+              Azul, igual ao céu depois da chuva, igual ao mar calmo. Agora eu
+              também amo azul e a culpa é toda sua.
+            </p>
+          </div>
+          <div class="qualidade-card tilt-3d">
+            <div class="qualidade-icon">👽</div>
+            <h3>Seu lado Stitch</h3>
+            <p>
+              "Ohana significa família." Você tem esse mesmo espírito de cuidar
+              de quem ama. E eu queria muito fazer parte da sua ohana.
+            </p>
+          </div>
+          <div class="qualidade-card tilt-3d">
+            <div class="qualidade-icon">✨</div>
+            <h3>Seu sorriso</h3>
+            <p>
+              Quando você sorri, meu dia fica automaticamente melhor. É
+              inexplicável e eu não quero viver sem ver.
+            </p>
+          </div>
+          <div class="qualidade-card tilt-3d">
+            <div class="qualidade-icon">📚</div>
+            <h3>Sua dedicação</h3>
+            <p>
+              Te ver estudando e correndo atrás dos seus sonhos me motiva
+              demais. Você é exemplo, mesmo sem saber.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section>
+      <div class="section-inner">
+        <div class="section-header">
+          <span class="label"> Nossa história</span>
+          <h2>Os capítulos que <em>a gente já escreveu</em></h2>
+          <p>
+            Cada momento com você virou uma memória que eu guardo com carinho.
+          </p>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-content">
+              <div class="tl-date">O começo ✨</div>
+              <p>
+                Quando eu te vi pela primeira vez e senti algo diferente. Não
+                sabia ainda, mas meu coração já tinha te escolhido.
+              </p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-content">
+              <div class="tl-date">Primeira conversa 💬</div>
+              <p>
+                Aquele papo que parecia curto mas rendeu horas. Saí dali
+                pensando em você o dia inteiro.
+              </p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-content">
+              <div class="tl-date">Descobrindo você 💙</div>
+              <p>
+                Cada coisa nova que eu descubro sobre você me fazia gostar mais.
+                Sua fé, seu jeito, seus sonhos...
+              </p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-content">
+              <div class="tl-date">Hoje</div>
+              <p>
+                Eu aqui, montando um site inteiro só pra te dizer o que sinto.
+                Porque você merece tudo isso e mais.
+              </p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-content">
+              <div class="tl-date">O que vem por aí 🚀</div>
+              <p>
+                Tomara que os próximos capítulos sejam nossos. Juntos. Na fé,
+                nos estudos, na vida.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STITCH APROVA -->
+    <section>
+      <div class="section-inner">
+        <div class="stitch-aprova">
+          <div class="stitch-aprova-img tilt-3d">
+            <img
+              src="./assets/img/STITCH.jpeg"
+              alt="Stitch"
+              onerror="
+                this.parentElement.style.background =
+                  'linear-gradient(135deg, #1e40af, #1e3a8a)';
+                this.style.display = 'none';
+              "
+            />
+          </div>
+          <div class="stitch-aprova-texto">
+            <span class="label">✦ Stitch aprova</span>
+            <h2>Até o Stitch sabe que <em>você é especial</em></h2>
+            <p>
+              Se o Stitch pudesse falar, ele diria que você é a pessoa mais
+              legal do universo. E olha que ele já conheceu muita gente, mas
+              ninguém com o seu coração.
+            </p>
+            <p>
+              Você tem esse mesmo espírito de família, de cuidar, de amar sem
+              medida. É por isso que eu sei: se o Stitch te visse, ele ia querer
+              ser seu melhor amigo também.
+            </p>
+            <div class="stitch-quote">
+              "Ohana significa família. Família significa que ninguém é
+              abandonado ou esquecido."
+              <span>— Stitch, Lilo & Stitch 💙</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MÁQUINA DE CARINHO -->
+    <section>
+      <div class="section-inner">
+        <div class="section-header">
+          <span class="label">✦ Máquina de carinho</span>
+          <h2>Uma mensagem <em>especial pra você</em></h2>
+          <p>Clica no botão e recebe um pedacinho do que eu sinto.</p>
+        </div>
+
+        <div class="maquina-wrap">
+          <div class="msg-box" id="msgBox">Clique no botão pra começar 💙</div>
+
+          <button type="button" class="btn-maquina" id="btnMensagem">
+            ✨ Me manda uma mensagem
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMESSAS -->
+    <section>
+      <div class="section-inner">
+        <div class="section-header">
+          <span class="label">✦ Minhas promessas</span>
+          <h2>Coisas que eu <em>prometo pra você</em></h2>
+          <p>Clique em cada cartão pra ver a promessa por trás.</p>
+        </div>
+        <div class="promessas-grid">
+          <div class="promessa-card" onclick="this.classList.toggle('flipped')">
+            <div class="promessa-inner">
+              <div class="promessa-front">
+                <div class="promessa-num">I</div>
+                <h3>Te ouvir de verdade</h3>
+                <small>Clique pra ver</small>
+              </div>
+              <div class="promessa-back">
+                <p>
+                  Prometo prestar atenção no que você sente, mesmo quando as
+                  palavras forem poucas.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="promessa-card" onclick="this.classList.toggle('flipped')">
+            <div class="promessa-inner">
+              <div class="promessa-front">
+                <div class="promessa-num">II</div>
+                <h3>Respeitar seu tempo</h3>
+                <small>Clique pra ver</small>
+              </div>
+              <div class="promessa-back">
+                <p>
+                  Prometo nunca te apressar. Cada passo seu é sagrado, e eu vou
+                  caminhar no seu ritmo.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="promessa-card" onclick="this.classList.toggle('flipped')">
+            <div class="promessa-inner">
+              <div class="promessa-front">
+                <div class="promessa-num">III</div>
+                <h3>Orar por você</h3>
+                <small>Clique pra ver</small>
+              </div>
+              <div class="promessa-back">
+                <p>
+                  Prometo te levar pra Deus todos os dias. Seu nome vai estar
+                  nas minhas orações.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="promessa-card" onclick="this.classList.toggle('flipped')">
+            <div class="promessa-inner">
+              <div class="promessa-front">
+                <div class="promessa-num">IV</div>
+                <h3>Apoiar seus sonhos</h3>
+                <small>Clique pra ver</small>
+              </div>
+              <div class="promessa-back">
+                <p>
+                  Prometo ser seu maior torcedor na psicologia e em tudo que
+                  você quiser ser.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="promessa-card" onclick="this.classList.toggle('flipped')">
+            <div class="promessa-inner">
+              <div class="promessa-front">
+                <div class="promessa-num">V</div>
+                <h3>Te fazer rir</h3>
+                <small>Clique pra ver</small>
+              </div>
+              <div class="promessa-back">
+                <p>
+                  Prometo arrancar sorrisos seus até nos dias mais difíceis. Nem
+                  que seja com meme do Stitch.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="promessa-card" onclick="this.classList.toggle('flipped')">
+            <div class="promessa-inner">
+              <div class="promessa-front">
+                <div class="promessa-num">VI</div>
+                <h3>Ser seu lugar seguro</h3>
+                <small>Clique pra ver</small>
+              </div>
+              <div class="promessa-back">
+                <p>
+                  Prometo que comigo você sempre vai poder ser você mesma, sem
+                  medo de julgamentos.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUCKET LIST -->
+    <section>
+      <div class="section-inner">
+        <div class="section-header">
+          <span class="label">✦ Nossos sonhos</span>
+          <h2>Coisas que eu <em>queria viver com você</em></h2>
+          <p>
+            Uma listinha de coisas que eu sonho em fazer um dia com você do meu
+            lado.
+          </p>
+        </div>
+        <div class="bucket-list">
+          <div class="bucket-item" onclick="this.classList.toggle('done')">
+            <div class="bucket-check"></div>
+            <div class="bucket-emoji">⛪</div>
+            <div class="bucket-text">Ir juntos à igreja e orar lado a lado</div>
+          </div>
+          <div class="bucket-item" onclick="this.classList.toggle('done')">
+            <div class="bucket-check"></div>
+            <div class="bucket-emoji">👽</div>
+            <div class="bucket-text">Maratona de Lilo & Stitch com pipoca</div>
+          </div>
+          <div class="bucket-item" onclick="this.classList.toggle('done')">
+            <div class="bucket-check"></div>
+            <div class="bucket-emoji">🌅</div>
+            <div class="bucket-text">Ver o pôr do sol juntos</div>
+          </div>
+          <div class="bucket-item" onclick="this.classList.toggle('done')">
+            <div class="bucket-check"></div>
+            <div class="bucket-emoji">🎂</div>
+            <div class="bucket-text">
+              Comemorar seu aniversário do seu jeito
+            </div>
+          </div>
+          <div class="bucket-item" onclick="this.classList.toggle('done')">
+            <div class="bucket-check"></div>
+            <div class="bucket-emoji">🌊</div>
+            <div class="bucket-text">
+              Caminhar na praia falando sobre a vida
+            </div>
+          </div>
+          <div class="bucket-item" onclick="this.classList.toggle('done')">
+            <div class="bucket-check"></div>
+            <div class="bucket-emoji">🎓</div>
+            <div class="bucket-text">
+              Te ver formada em psicologia (vou chorar)
+            </div>
+          </div>
+          <div class="bucket-item" onclick="this.classList.toggle('done')">
+            <div class="bucket-check"></div>
+            <div class="bucket-emoji">💙</div>
+            <div class="bucket-text">Construir uma história linda com você</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL -->
+    <section>
+      <div class="section-inner">
+        <div class="final">
+          <div class="section-header">
+            <span class="label">✦ Pra terminar</span>
+          </div>
+          <div class="final-quote">
+            "Você é o tipo de pessoa que <em>Deus caprichou</em> e eu sou muito
+            grato por ter te encontrado."
+          </div>
+          <div class="final-versiculo">
+            "Acima de tudo, porém, revistam-se do amor, que é o elo perfeito." —
+            Colossenses 3:14
+          </div>
+          <div class="final-signature">Com carinho, pra sempre 💙</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mini Stitch Flutuante (ROSTO REAL) -->
+    <div class="stitch-float" id="stitchFloat">
+      <div class="stitch-face">
+        <img
+          src="./assets/img/ROSTO_STITCH.png"
+          alt="Stitch"
+          onerror="this.style.display = 'none'"
+        />
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+      // ===== LOADING COM STITCH =====
+      function criarEstrelasLoading() {
+        const container = document.getElementById("loadingStars");
+        if (!container) return;
+        for (let i = 0; i < 60; i++) {
+          const s = document.createElement("div");
+          s.className = "loading-star";
+          const size = Math.random() * 2.5 + 0.5;
+          s.style.width = size + "px";
+          s.style.height = size + "px";
+          s.style.left = Math.random() * 100 + "%";
+          s.style.top = Math.random() * 100 + "%";
+          s.style.animationDelay = Math.random() * 2 + "s";
+          container.appendChild(s);
+        }
+      }
+      criarEstrelasLoading();
+
+      // Animação do Stitch no loader
+      const loadingStitch = document.getElementById("loadingStitch");
+      const loadingBarFill = document.getElementById("loadingBarFill");
+      const loadingPercent = document.getElementById("loadingPercent");
+      const loadingText = document.getElementById("loadingText");
+
+      // Frases que mudam durante o loading
+      const frasesLoading = [
+        "Stitch tá chegando...",
+        "Rasgando a tela...",
+        "Quase lá...",
+        "Preparando surpresa...",
+        "Só mais um pouquinho...",
+      ];
+
+      // Animação inicial do Stitch (emergindo do buraco)
+      if (loadingStitch) {
+        gsap.fromTo(
+          loadingStitch,
+          { scale: 0.3, y: 100, opacity: 0, rotation: -10 },
+          {
+            scale: 1,
+            y: 0,
+            opacity: 1,
+            rotation: 0,
+            duration: 3,
+            ease: "back.out(1.7)",
+            delay: 0.7,
+          },
+        );
+
+        // Balanço contínuo do Stitch
+        gsap.to(loadingStitch, {
+          y: -15,
+          rotation: 3,
+          duration: 2,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: 2,
+        });
+      }
+
+      // Progresso do loading
+      let progresso = 0;
+      const intervaloLoading = setInterval(() => {
+        progresso += Math.random() * 15 + 5;
+        if (progresso > 100) progresso = 100;
+
+        if (loadingBarFill) loadingBarFill.style.width = progresso + "%";
+        if (loadingPercent)
+          loadingPercent.textContent = Math.floor(progresso) + "%";
+
+        // Muda a frase conforme o progresso
+        const fraseIdx = Math.min(
+          Math.floor((progresso / 100) * frasesLoading.length),
+          frasesLoading.length - 1,
+        );
+        if (loadingText) loadingText.textContent = frasesLoading[fraseIdx];
+
+        if (progresso >= 100) {
+          clearInterval(intervaloLoading);
+          setTimeout(() => {
+            document.getElementById("loading").classList.add("hidden");
+            iniciarAnimacoes();
+          }, 700);
+        }
+      }, 500);
+
+      (() => {
+        const listaMensagens = [
+          "Você é o motivo do meu sorriso nos dias ruins 💙",
+          "Sua fé me inspira a ser alguém melhor ✨",
+          "Eu queria ser psicólogo só pra entender como você cabe inteira no meu coração 🧠💙",
+          "Se você fosse uma cor, seria azul, porque é calma, profunda e essencial 💙",
+          "Ohana significa família. E eu queria muito fazer parte da sua 🌺",
+          "Você é a oração que Deus respondeu sem eu nem saber que tinha feito 🙏",
+          "Seu sorriso é meu lugar favorito no mundo 😊",
+          "Eu não sei o que o futuro guarda, mas sei que quero você nele 💙",
+          "Você é tipo o Stitch: apareceu de repente e mudou minha vida pra melhor 👽",
+          "Cada minuto ao seu lado vale mais que mil palavras 💫",
+          "Se eu pudesse te dar uma coisa na vida, te daria a capacidade de te ver através dos meus olhos 🥺",
+          "Você é a prova de que Deus capricha nas obras ✨",
+          "Meu coração bate diferente quando você tá por perto 💙",
+          "Se felicidade tivesse nome, seria o seu 😊",
+          "O mundo fica mais bonito porque você existe nele 💙",
+        ];
+
+        const botao = document.getElementById("btnMensagem");
+        const caixa = document.getElementById("msgBox");
+
+        if (!botao || !caixa) {
+          console.error(
+            "Máquina de carinho: botão ou caixa de mensagem não encontrados.",
+          );
+          return;
+        }
+
+        let indiceAnterior = -1;
+        let animacaoPendente;
+
+        botao.addEventListener("click", () => {
+          let novoIndice;
+
+          do {
+            novoIndice = Math.floor(Math.random() * listaMensagens.length);
+          } while (listaMensagens.length > 1 && novoIndice === indiceAnterior);
+
+          indiceAnterior = novoIndice;
+
+          clearTimeout(animacaoPendente);
+
+          caixa.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+          caixa.style.opacity = "0";
+          caixa.style.transform = "scale(0.95)";
+
+          animacaoPendente = setTimeout(() => {
+            caixa.textContent = listaMensagens[novoIndice];
+            caixa.style.opacity = "1";
+            caixa.style.transform = "scale(1)";
+          }, 300);
+        });
+
+        console.log("Máquina de carinho iniciada com sucesso! 💙");
+      })();
+
+      // ===== CURSOR =====
+      const cursor = document.getElementById("cursor");
+      let cursorX = 0,
+        cursorY = 0,
+        currentX = 0,
+        currentY = 0;
+      document.addEventListener("mousemove", (e) => {
+        cursorX = e.clientX;
+        cursorY = e.clientY;
+      });
+      function animateCursor() {
+        currentX += (cursorX - currentX) * 0.15;
+        currentY += (cursorY - currentY) * 0.15;
+        cursor.style.left = currentX + "px";
+        cursor.style.top = currentY + "px";
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      // ===== ESTRELAS =====
+      const starsContainer = document.getElementById("stars");
+      for (let i = 0; i < 180; i++) {
+        const s = document.createElement("div");
+        s.className = "star";
+        const size = Math.random() * 2.5 + 0.5;
+        s.style.width = size + "px";
+        s.style.height = size + "px";
+        s.style.left = Math.random() * 100 + "%";
+        s.style.top = Math.random() * 100 + "%";
+        s.style.animationDelay = Math.random() * 3 + "s";
+        s.style.animationDuration = Math.random() * 3 + 2 + "s";
+        starsContainer.appendChild(s);
+      }
+
+      // ===== PÉTALAS =====
+      const petalasContainer = document.getElementById("petalas");
+      const emojisPetala = ["", "✨", "🌸", "💫"];
+      for (let i = 0; i < 20; i++) {
+        const p = document.createElement("div");
+        p.className = "petala";
+        p.textContent =
+          emojisPetala[Math.floor(Math.random() * emojisPetala.length)];
+        p.style.left = Math.random() * 100 + "%";
+        p.style.animationDuration = Math.random() * 10 + 10 + "s";
+        p.style.animationDelay = Math.random() * 15 + "s";
+        p.style.fontSize = Math.random() * 0.8 + 0.8 + "rem";
+        petalasContainer.appendChild(p);
+      }
+
+      // ===== TILT 3D =====
+      document.querySelectorAll(".tilt-3d").forEach((el) => {
+        el.addEventListener("mousemove", (e) => {
+          const rect = el.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -8;
+          const rotateY = ((x - centerX) / centerX) * 8;
+          el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02,1.02,1.02)`;
+        });
+        el.addEventListener("mouseleave", () => {
+          el.style.transform =
+            "perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)";
+        });
+      });
+
+      document.querySelectorAll(".qualidade-card").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -6;
+          const rotateY = ((x - centerX) / centerX) * 6;
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.transform =
+            "perspective(1000px) rotateX(0) rotateY(0) translateZ(0)";
+        });
+      });
+
+      // ===== GSAP =====
+      gsap.registerPlugin(ScrollTrigger);
+
+      function iniciarAnimacoes() {
+        gsap.from(".hero-badge", {
+          opacity: 0,
+          y: -20,
+          duration: 1,
+          delay: 0.2,
+          ease: "power3.out",
+        });
+        gsap.from(".hero h1", {
+          opacity: 0,
+          y: 50,
+          duration: 1.2,
+          delay: 0.4,
+          ease: "power3.out",
+        });
+        gsap.from(".hero-subtitle", {
+          opacity: 0,
+          y: 30,
+          duration: 1,
+          delay: 0.8,
+          ease: "power3.out",
+        });
+        gsap.from(".hero-cta", {
+          opacity: 0,
+          y: 20,
+          duration: 1,
+          delay: 1.1,
+          ease: "power3.out",
+        });
+        gsap.from(".scroll-indicator", { opacity: 0, duration: 1, delay: 1.5 });
+
+        gsap.utils.toArray("section").forEach((sec, i) => {
+          if (i === 0) return;
+          const header = sec.querySelector(".section-header");
+          const content = sec.querySelectorAll(
+            ".sobre-grid, .qualidades-grid, .timeline, .galeria, .stitch-aprova, .maquina-wrap, .promessas-grid, .bucket-list, .final",
+          );
+
+          if (header) {
+            gsap.from(header.children, {
+              scrollTrigger: { trigger: header, start: "top 80%" },
+              opacity: 0,
+              y: 30,
+              stagger: 0.15,
+              duration: 0.8,
+              ease: "power3.out",
+            });
+          }
+          content.forEach((c) => {
+            gsap.from(c, {
+              scrollTrigger: { trigger: c, start: "top 85%" },
+              opacity: 0,
+              y: 50,
+              duration: 1,
+              ease: "power3.out",
+            });
+          });
+        });
+
+        gsap.from(".tl-item", {
+          scrollTrigger: { trigger: ".timeline", start: "top 70%" },
+          opacity: 0,
+          x: (i, el) =>
+            Array.from(el.parentNode.children).indexOf(el) % 2 === 0 ? -50 : 50,
+          stagger: 0.2,
+          duration: 0.8,
+          ease: "power2.out",
+        });
+
+        gsap.from(".polaroid", {
+          scrollTrigger: { trigger: ".galeria", start: "top 75%" },
+          opacity: 0,
+          scale: 0.5,
+          rotation: (i) => (i % 2 === 0 ? -15 : 15),
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "back.out(1.5)",
+        });
+      }
+
+      // ===== NAV DOTS =====
+      const sections = document.querySelectorAll("section");
+      const dots = document.querySelectorAll(".nav-dot");
+      dots.forEach((dot) => {
+        dot.addEventListener("click", () => {
+          const idx = parseInt(dot.dataset.section);
+          sections[idx].scrollIntoView({ behavior: "smooth" });
+        });
+      });
+      window.addEventListener("scroll", () => {
+        let current = 0;
+        sections.forEach((sec, i) => {
+          const rect = sec.getBoundingClientRect();
+          if (rect.top <= window.innerHeight / 2) current = i;
+        });
+        dots.forEach((d, i) => d.classList.toggle("active", i === current));
+      });
+
+      // ===== GALERIA =====
+      document.querySelectorAll(".polaroid").forEach((item) => {
+        item.addEventListener("click", () => {
+          const img = item.querySelector(".polaroid-img");
+          const caption = item.dataset.caption;
+          const lightboxImg = document.getElementById("lightboxImg");
+          lightboxImg.innerHTML = img.innerHTML;
+          document.getElementById("lightboxCaption").textContent = caption;
+          document.getElementById("lightbox").classList.add("active");
+        });
+      });
+      function fecharLightbox() {
+        document.getElementById("lightbox").classList.remove("active");
+      }
+      document.getElementById("lightbox").addEventListener("click", (e) => {
+        if (e.target.id === "lightbox") fecharLightbox();
+      });
+
+      // ===== MINI STITCH SEGUE O MOUSE =====
+      const stitchFloat = document.getElementById("stitchFloat");
+      let mouseX = window.innerWidth / 2,
+        mouseY = window.innerHeight / 2;
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+      function animarStitch() {
+        const dx = (mouseX - window.innerWidth + 50) * 0.015;
+        const dy = (mouseY - window.innerHeight + 50) * 0.015;
+        stitchFloat.style.marginRight = -dx + "px";
+        stitchFloat.style.marginBottom = -dy + "px";
+        requestAnimationFrame(animarStitch);
+      }
+      animarStitch();
+
+      // ===== STITCH ESPIANDO REAGE AO SCROLL =====
+      const stitchEspiao = document.getElementById("stitchEspiao");
+      window.addEventListener("scroll", () => {
+        const scrollPercent =
+          window.scrollY / (document.body.scrollHeight - window.innerHeight);
+        const offset = -180 + scrollPercent * 40;
+        stitchEspiao.style.left = offset + "px";
+      });
+
+      // ===== EASTER EGG =====
+      let buffer = "";
+      document.addEventListener("keydown", (e) => {
+        buffer += e.key.toLowerCase();
+        if (buffer.length > 10) buffer = buffer.slice(-10);
+        if (buffer.includes("ohana")) {
+          alert(
+            "💙 Ohana significa família. Família significa que ninguém é abandonado ou esquecido. 💙\n\n— Stitch",
+          );
+          buffer = "";
+        }
+      });
+
+      // ===== CLIQUE COM CORAÇÃO =====
+      document.addEventListener("click", (e) => {
+        if (
+          e.target.closest(
+            "button, a, .music-item, .polaroid, .promessa-card, .bucket-item, .envelope, .nav-dot, .lightbox-close",
+          )
+        )
+          return;
+        const cor = document.createElement("div");
+        cor.textContent = ["💙", "✨"][Math.floor(Math.random() * 2)];
+        cor.style.cssText = `
+      position: fixed;
+      left: ${e.clientX}px;
+      top: ${e.clientY}px;
+      pointer-events: none;
+      font-size: 1.5rem;
+      z-index: 9998;
+      animation: subir 1.5s ease-out forwards;
+    `;
+        document.body.appendChild(cor);
+        setTimeout(() => cor.remove(), 1500);
+      });
+
+      const style = document.createElement("style");
+      style.textContent = `
+    @keyframes subir {
+      0%{ transform: translate(-50%, -50%) scale(0); opacity:1;}
+      100%{ transform: translate(-50%, -150%) scale(1.3); opacity:0;}
+    }
+  `;
+      document.head.appendChild(style);
+    </script>
+  </body>
+</html>
